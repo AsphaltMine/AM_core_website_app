@@ -1,9 +1,10 @@
 {% load static %}
-<div class="row">
-    <div class="col-md-12">
-        <h2>Request New Account</h2>
-
-        <p>Use the following form to request an account on the system.</p>
+<div class="am-login-wrap am-login-page">
+    <div class="am-login-card">
+        <img src="{% static 'img/favicon.png' %}" alt="AsphaltMine" class="am-login-logo">
+        <h2 class="am-login-title">Create Account</h2>
+        <p class="am-login-subtitle">Fill in the form below to create your AsphaltMine account. You will receive an email with a link to verify your address before you can log in.</p>
+        <p class="am-login-subtitle am-login-subtitle--note">To receive additional curate access, write to <a href="mailto:contact@asphaltmine.org">contact@asphaltmine.org</a>.</p>
 
         {% if data.action_result %}
         <div class="alert alert-danger">
@@ -11,24 +12,30 @@
         </div>
         {% endif %}
 
-        <form novalidate action="{% url 'core_website_app_account_request' %}" method="post" class="form-horizontal">
-
+        <form novalidate action="{% url 'core_website_app_account_request' %}" method="post" class="am-login-form">
             {% csrf_token %}
             {% for field in data.request_form %}
-              <div class="form-group">
-                <label>{{ field.label_tag }}</label>
-                <div>{{ field }}</div>
+            <div class="am-login-field">
+                <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span class="am-required">*</span>{% endif %}</label>
+                {{ field }}
                 {% if field.help_text %}
-                  <small class="text-muted">{{ field.help_text }}</small>
+                <div class="form-text password-help">{{ field.help_text }}</div>
                 {% endif %}
                 {% for error in field.errors %}
-                  <p class="text-danger">{{ error }}</p>
+                <div class="text-danger small">{{ error }}</div>
                 {% endfor %}
-              </div>
+            </div>
             {% endfor %}
-            <button type="submit" class="btn btn-lg btn-secondary {% if BOOTSTRAP_VERSION|first == "4" %}float-right{% elif BOOTSTRAP_VERSION|first == "5"  %}float-end{% endif %}">
-                <i class="fas fa-paper-plane"></i> Send Request
+
+            <button type="submit" class="am-login-submit">
+                <i class="fas fa-user-plus"></i> Create Account
             </button>
+
+            <div class="am-login-links">
+                <a href="{% url 'core_main_app_login' %}">
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i> Back to login
+                </a>
+            </div>
         </form>
     </div>
 </div>

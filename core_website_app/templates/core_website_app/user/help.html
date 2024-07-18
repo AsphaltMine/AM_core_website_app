@@ -1,76 +1,104 @@
 {% load static %}
 {% load stripjs %}
-<div class="row">
-    <div class="col-md-12">
-		<h2>Help</h2>
+<h1>FAQ</h1>
 
-		<div class="left word-wrap">
-			{% if data.help %}
-				{{ data.help.content | stripjs }}
-			{% else %}
-				<div class="left large">
-					<p>
-					  <a href="#What-is-the-Curation-System">What is the {{CUSTOM_NAME}}?</a><br/>
-					  <a href="#How-do-I-get-access">How do I get access to the {{CUSTOM_NAME}}?</a><br/>
-					  <a href="#What-are-activities">What are some of the activities I can do on the {{CUSTOM_NAME}}?</a><br/>
-					  <a href="#Can-I-use-RESTful-API">Can I use {{CUSTOM_NAME}} using a RESTful API?</a><br/>
-                      <a href="#How-can-I-get-help">How do I get help with questions?</a><br/>
-					  <a href="#How-do-I-contact-the-admin">How do I contact the {{CUSTOM_NAME}} administrator for questions?</a><br/>
-					</p>
-				</div>
-				<div class="clearer">&nbsp;</div>
-				<hr/>
-				<br/>
-
-				<h3 id="What-is-the-Curation-System">What is the {{CUSTOM_NAME}}?</h3>
-				<p class="large">
-					The {{CUSTOM_NAME}} allows for the curation of materials data into a repository using predefined templates. The system also allows
-					for browsing and exploring of the materials data using the predefined templates as well.
-				</p>
-
-				<div class="clearer">&nbsp;</div>
-
-				<h3 id="How-do-I-get-access">How do I get access to the {{CUSTOM_NAME}}?</h3>
-				<p class="large">
-					An individual may make a request to access {{CUSTOM_NAME}} using the online request form. Once the {{CUSTOM_NAME}} administrator accepts
-					the account request, the user is notified that the account is created with the appropriate credentials.
-				</p>
-
-				<div class="clearer">&nbsp;</div>
-
-				<h3 id="What-are-activities">What are some of the activities I can do on the {{CUSTOM_NAME}}?</h3>
-				<p class="large">
-					A user can enter and curate materials data, search and explore materials data, and perform a federation of queries
-					across several {{CUSTOM_NAME}} instances.
-				</p>
-
-				<div class="clearer">&nbsp;</div>
-
-				<h3 id="Can-I-use-RESTful-API">Can I use {{CUSTOM_NAME}} using a RESTful API?</h3>
-				<p class="large">
-					Yes, {{CUSTOM_NAME}} supports RESTful APIs. The {{CUSTOM_NAME}} REST-based APIs allow the integration with other Web services, data entry,
-					query, and retrieval. The RESTful API documentation can be accessed <a href="{% url 'swagger_view'%}">here</a>.
-				</p>
-
-				<div class="clearer">&nbsp;</div>
-
-                <h3 id="How-can-I-get-help">How do I get help with questions?</h3>
-                <p class="large">
-                    A Google Group has been established for discussion/questions about the CDCS systems developed by NIST. A Google account is required for posting.
-                     <br>
-                    Site: <a href="https://groups.google.com/d/forum/mdcs-mgi">https://groups.google.com/d/forum/mdcs-mgi</a>
-                     <br>
-                    Email: <a href="mailto:mdcs-mgi@googlegroups.com">mdcs-mgi@googlegroups.com</a>
-                </p>
-
-                <div class="clearer">&nbsp;</div>
-
-				<h3 id="How-do-I-contact-the-admin">How do I contact the {{CUSTOM_NAME}} administrator for questions?</h3>
-				<p class="large">
-					You can contact the {{CUSTOM_NAME}} administrator using this
-                    <a href="{% url 'core_website_app_contact' %}">form</a>.
-				</p>
-			{% endif %}
-		</div>
-	</div>
+{% if data.help %}
+<div class="left word-wrap">
+    {{ data.help.content | stripjs }}
 </div>
+{% else %}
+<div class="am-faq-list">
+    <details class="am-faq-item">
+        <summary><span>What is the {{CUSTOM_NAME}}?</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="am-faq-answer">
+            <p>{{CUSTOM_NAME}} is a platform for collecting asphalt test results in an organized online database and for using this data to train machine
+            learning models to predict asphalt performance. More information can be found <a href="https://asphaltmine.org/about/">here</a>.</p>
+        </div>
+    </details>
+    <details class="am-faq-item">
+        <summary><span>How do I get access to the {{CUSTOM_NAME}}?</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="am-faq-answer">
+            <p>Anyone can create an account by clicking Log In / Sign Up and then Create Account. After you verify your email address, the account is active
+            with read-only access. To enter or upload data, write to <a href="mailto:contact@asphaltmine.org">contact@asphaltmine.org</a> to request write access.</p>
+        </div>
+    </details>
+    <details class="am-faq-item">
+        <summary><span>What tasks can I perform on the {{CUSTOM_NAME}}?</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="am-faq-answer">
+            <p>A user can input and curate asphalt test results, search and explore existing data, display or conceal their data, and share it either
+            publicly or with specific groups.</p>
+        </div>
+    </details>
+    <details class="am-faq-item">
+        <summary><span>What asphalt tests are available in the {{CUSTOM_NAME}}?</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="am-faq-answer">
+            <p>Currently, the available tests in the {{CUSTOM_NAME}} are the Rutting Test, Marshall Test, Indirect Tensile Strength Test, Thermal Stress Restrained
+            Specimen Test (TSRST), Uniaxial Tension Stress Test (UTST) and Stiffness Test. You can view the data structure for these
+            tests <a href="https://asphaltmine.org/mix-test-database-structure/">here</a>.</p>
+        </div>
+    </details>
+    <details class="am-faq-item">
+        <summary><span>Do I need an account to use the {{CUSTOM_NAME}}?</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="am-faq-answer">
+            <p>You can open Visualization, Prediction and this FAQ without an account. Searching the database, entering data, uploading data and using workspaces
+            need you to be logged in.</p>
+        </div>
+    </details>
+    <details class="am-faq-item">
+        <summary><span>How do I create an account?</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="am-faq-answer">
+            <p>Click Log In / Sign Up, then Create Account. Fill in your username, first name, last name, email address and password, type the characters shown in
+            the image, and click Create Account. A verification link is sent to your email address. Click it to activate your account.</p>
+        </div>
+    </details>
+    <details class="am-faq-item">
+        <summary><span>I did not receive the verification email. What can I do?</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="am-faq-answer">
+            <p>Check your spam or junk folder first. If it is not there, click Didn't get it? Resend the email on the Check Your Email page, or Resend the
+            verification email on the login page. Then type the email you signed up with, complete the captcha and click Resend Email.</p>
+        </div>
+    </details>
+    <details class="am-faq-item">
+        <summary><span>I forgot my password. How do I reset it?</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="am-faq-answer">
+            <p>On the login page, click Forgot password, type your email and click Send reset link. Open the email, click the link and set a new password. The
+            password needs at least 8 characters, including an uppercase letter, a lowercase letter, a digit and a symbol.</p>
+        </div>
+    </details>
+    <details class="am-faq-item">
+        <summary><span>What can I do with a read-only account?</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="am-faq-answer">
+            <p>A read-only account can log in, search and view records in the database, and use Visualization and Prediction. Saving records from Data Curation or
+            Bulk Upload needs write access, which you can request at <a href="mailto:contact@asphaltmine.org">contact@asphaltmine.org</a>.</p>
+        </div>
+    </details>
+    <details class="am-faq-item">
+        <summary><span>Who can see the data I upload?</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="am-faq-answer">
+            <p>Your records are private to you by default. Other people can see them only if you move them into a workspace that is shared with specific users or
+            groups, or that you set to public.</p>
+        </div>
+    </details>
+    <details class="am-faq-item">
+        <summary><span>Which predictions are available?</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="am-faq-answer">
+            <p>The Marshall Test model predicts Marshall Stability and Flow, and the Volumetric Properties model predicts Bulk Density and Air Voids. Models for the
+            other tests will be added over time. Prediction can be opened without an account.</p>
+        </div>
+    </details>
+    <details class="am-faq-item">
+        <summary><span>What is Ask {{CUSTOM_NAME}}?</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="am-faq-answer">
+            <p>It is the chat button at the bottom right of the pages. The AI assistant answers questions about using {{CUSTOM_NAME}}, the tests, the data fields
+            and the prediction models. It can make mistakes, so check important details with the team. Visitors who are not signed in can ask fewer questions per
+            hour than signed in users. Your questions are sent to Google's Gemini AI service, so do not type passwords or confidential information.</p>
+        </div>
+    </details>
+    <details class="am-faq-item">
+        <summary><span>How do I contact the {{CUSTOM_NAME}} team for questions?</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="am-faq-answer">
+            <p>You can contact the {{CUSTOM_NAME}} team by email at <a href="mailto:contact@asphaltmine.org">contact@asphaltmine.org</a>.</p>
+        </div>
+    </details>
+</div>
+{% endif %}
