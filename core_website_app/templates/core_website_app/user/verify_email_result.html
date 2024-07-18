@@ -1,0 +1,19 @@
+{% load static %}
+<div class="am-login-wrap am-login-page">
+    <div class="am-login-card">
+        <img src="{% static 'img/favicon.png' %}" alt="AsphaltMine" class="am-login-logo">
+        {% if data.success %}
+        <h2 class="am-login-title">Email Verified</h2>
+        <p class="am-login-subtitle">Your account is active. You can log in now.</p>
+        <a href="{% url 'core_main_app_login' %}" class="am-login-submit">
+            <i class="fas fa-sign-in-alt"></i> Log In
+        </a>
+        {% else %}
+        <h2 class="am-login-title">Verification Failed</h2>
+        <p class="am-login-subtitle">This link is invalid or has expired.</p>
+        <a href="{% url 'core_website_app_resend_verification' %}" class="am-login-submit">
+            Resend Verification Email
+        </a>
+        {% endif %}
+    </div>
+</div>

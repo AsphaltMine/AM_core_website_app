@@ -28,6 +28,10 @@ class RequestAccountForm(UserCreationForm):
     )
     captcha = CaptchaField()
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["password2"].help_text = ""
+
     class Meta:
         """Meta"""
 
@@ -55,6 +59,17 @@ class RequestAccountForm(UserCreationForm):
             raise ValidationError("A user with that email already exists.")
         except ObjectDoesNotExist:
             return email
+
+
+class ResendVerificationForm(forms.Form):
+    """
+    Form to resend the account verification email
+    """
+
+    email = forms.EmailField(
+        label="Email Address", max_length=100, required=True
+    )
+    captcha = CaptchaField()
 
 
 class ContactForm(forms.Form):

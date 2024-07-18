@@ -1,0 +1,10 @@
+{% autoescape off %}Dear {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
+
+Your AsphaltMine account now has write access.
+
+We recommend organizing your data into workspaces. This makes it easy to share with specific users or make it public.
+
+{{ URI }}
+
+The AsphaltMine team
+{% endautoescape %}

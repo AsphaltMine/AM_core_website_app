@@ -13,6 +13,16 @@ urlpatterns = [
         name="core_website_app_account_request",
     ),
     re_path(
+        r"^verify-email/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z\-]+)/$",
+        user_views.verify_email,
+        name="core_website_app_verify_email",
+    ),
+    re_path(
+        r"^resend-verification/$",
+        user_views.resend_verification,
+        name="core_website_app_resend_verification",
+    ),
+    re_path(
         r"^contact/$", user_views.contact, name="core_website_app_contact"
     ),
     re_path(r"^help/$", user_views.help_page, name="core_website_app_help"),

@@ -14,36 +14,17 @@ from core_website_app.settings import (
 
 
 def get_all():
-    """List of opened account requests
-
-    Returns:
-
-        List of all requests
-    """
+    """List of opened account requests"""
     return AccountRequest.get_all()
 
 
 def get_count():
-    """Count number of account request currently in the database
-
-    Returns:
-
-        number of account requests
-    """
+    """Count number of account request currently in the database"""
     return get_all().count()
 
 
 def get(account_request_id):
-    """Get an account request given its primary key
-
-    Args:
-
-        account_request_id: Primary key of the request
-
-    Returns:
-
-        Account request
-    """
+    """Get an account request given its primary key"""
     try:
         return AccountRequest.get_by_id(account_request_id)
     except Exception:
@@ -51,35 +32,21 @@ def get(account_request_id):
 
 
 def insert(user):
-    """Create a new request
-
-    Args:
-
-        user: Django User
-
-    Returns:
-
-        New account request
-    """
+    """Create a new request"""
     try:
-        # check if a user with the same username exists
         _get_user_by_username(user.username)
         raise ApiError("A user with the same username already exists.")
     except ObjectDoesNotExist:
-        # no user with the same username, continue
         pass
 
     try:
-        # check if a user with the same email exists
         _get_user_by_email(user.email)
         raise ApiError("A user with the same email already exists.")
     except ObjectDoesNotExist:
-        # no user with the same email, continue
         pass
 
     user.save()
 
-    # Create the account request and save it
     account_request = AccountRequest(
         username=user.username,
         first_name=user.first_name,
@@ -100,39 +67,75 @@ def insert(user):
     return account_request
 
 
+def get_pending_for_user(user):
+    return AccountRequest.objects.filter(username=user.username).first()
+
+
+def insert_write_access_request(
+    user, organization, country, standard, standard_other, reason
+):
+    existing = get_pending_for_user(user)
+    if existing is not None:
+        return existing, False
+    account_request = AccountRequest(
+        username=user.username,
+        first_name=user.first_name,
+        last_name=user.last_name,
+        email=user.email,
+        organization=organization,
+        country=country,
+        standard=standard,
+        standard_other=standard_other,
+        reason=reason,
+    )
+    account_request.save()
+    return account_request, True
+
+
+def grant_write_access(user):
+    from django.contrib.auth.models import Group
+    from core_main_app.permissions import rights
+
+    user.groups.add(Group.objects.get(name=rights.DEFAULT_GROUP))
+    read_only_group = Group.objects.filter(name=rights.READ_ONLY_GROUP).first()
+    if read_only_group is not None:
+        user.groups.remove(read_only_group)
+
+
+def _send_write_access_granted_email(user):
+    from django.core.mail import EmailMultiAlternatives
+    from django.template.loader import render_to_string
+
+    if not user.email:
+        return
+    context = {"user": user, "URI": SERVER_URI}
+    email = EmailMultiAlternatives(
+        "Write access granted on AsphaltMine",
+        render_to_string(
+            "core_website_app/admin/email/write_access_granted.txt", context
+        ),
+        None,
+        [user.email],
+    )
+    email.attach_alternative(
+        render_to_string(
+            "core_website_app/admin/email/write_access_granted.html", context
+        ),
+        "text/html",
+    )
+    email.send(fail_silently=True)
+
+
 def accept(account_request):
-    """Accept an account request
-
-    Args:
-
-        account_request: Primary key of the request
-
-    Returns:
-
-    """
+    """Accept an account request"""
     user = None
     try:
-        # check if a user with the same username exists
         user = _get_user_by_username(account_request.username)
         user.is_active = True
         user.save()
-
-        if settings.SEND_EMAIL_WHEN_ACCOUNT_REQUEST_IS_ACCEPTED:
-            # FIXME send_mail should use a User object
-            context = {
-                "lastname": account_request.last_name,
-                "firstname": account_request.first_name,
-                "URI": SERVER_URI,
-            }
-
-            send_mail_api.send_mail_from_template(
-                subject="Account approved",
-                path_to_template="core_website_app/admin/email/request_account_approved.html",
-                context=context,
-                recipient_list=[account_request.email],
-            )
+        grant_write_access(user)
+        _send_write_access_granted_email(user)
     finally:
-        # delete the user request
         account_request.delete()
         if user is not None:
             return user
@@ -141,28 +144,14 @@ def accept(account_request):
 
 
 def deny(account_request, send_email=True, email_params=None):
-    """Delete an account request
-
-    Args:
-
-        account_request: Primary key of the request
-        send_email: boolean to indicate if we have to send an email
-        email_params: { subject: <email subject>, body: <email body> }
-
-    Returns:
-
-    """
+    """Delete an account request"""
     user = None
     try:
-        # check if a user with the same username exists
         user = _get_user_by_username(account_request.username)
-        user.delete()
     finally:
-        # delete the user request
         account_request.delete()
 
         if send_email:
-            # create the context for the email
             account_request_email = account_request.email
             context = {
                 "lastname": account_request.last_name,
@@ -198,62 +187,22 @@ def deny(account_request, send_email=True, email_params=None):
 
 
 def _get_user_by_username(username):
-    """Returns a user given its username
-
-    Args:
-
-        username: Given username
-
-    Returns:
-
-        User
-    """
+    """Returns a user given its username"""
     return User.objects.get(username=username)
 
 
 def _get_user_by_email(email):
-    """Returns a user given its email
-
-    Args:
-
-        email: Given email
-
-    Returns:
-
-        User
-    """
-    return User.objects.get(email=email)
+    """Returns a user given its email"""
+    return User.objects.get(email__iexact=email)
 
 
 def _get_user_by_id(user_id):
-    """Returns a user given its primary key
-
-    Args:
-
-        user_id: Given user id
-
-    Returns:
-
-        User
-    """
+    """Returns a user given its primary key"""
     return User.objects.get(pk=user_id)
 
 
 def _create_and_save_user(username, password, first_name, last_name, email):
-    """Save a user with the given parameters
-
-    Args:
-
-        username: Given username
-        password: Given password
-        first_name: Given first name
-        last_name: Given last name
-        email: Given email
-
-    Returns:
-
-        User
-    """
+    """Save a user with the given parameters"""
     user = User.objects.create_user(
         username=username,
         password=password,
@@ -261,7 +210,5 @@ def _create_and_save_user(username, password, first_name, last_name, email):
         last_name=last_name,
         email=email,
     )
-    # Have to be called separately because save from django
-    # object return nothing
     user.save()
     return user
