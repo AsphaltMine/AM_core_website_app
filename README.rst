@@ -1,31 +1,20 @@
-================
-Core Website App
-================
+This repository is a modified fork of the NIST CDCS `core_website_app <https://github.com/usnistgov/core_website_app>`_
+(basic web functionalities for the curator core project), used by the AsphaltMine (AM) web application.
 
-Basic web functionalities for the curator core project.
+Modifications
+=============
 
-Quickstart
-==========
+This fork includes modifications for AsphaltMine, in place since 2024-07-18. For the detailed
+nature and dates of changes, see this repository's commit history.
 
-1. Add "core_website_app" to your INSTALLED_APPS setting
---------------------------------------------------------
+Original NIST core_website_app
+===============================
 
-.. code:: python
+For the unmodified original, see ``ORIGINAL_README.rst`` and
+`https://github.com/usnistgov/core_website_app <https://github.com/usnistgov/core_website_app>`_.
 
-    INSTALLED_APPS = [
-        ...
-        'core_website_app',
-    ]
+Licensing
+=========
 
-2. Include the core_website_app URLconf in your project urls.py
----------------------------------------------------------------
-
-.. code:: python
-
-    url(r'^website/', include('core_website_app.urls')),
-
-
-3. Install and configure Captcha
---------------------------------
-
-See instructions: https://django-simple-captcha.readthedocs.io/en/latest/usage.html#installation
+- NIST License: ``LICENSE.md``
+- Third Party License: ``THIRD_PARTY_LICENSES.md``

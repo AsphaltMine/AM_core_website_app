@@ -222,7 +222,7 @@ def _get_user_by_email(email):
 
         User
     """
-    return User.objects.get(email=email)
+    return User.objects.get(email__iexact=email)
 
 
 def _get_user_by_id(user_id):

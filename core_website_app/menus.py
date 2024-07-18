@@ -31,7 +31,7 @@ if DISPLAY_CONTACT_FOOTER:
         "footer",
         MenuItem(
             "Contact",
-            reverse("core_website_app_contact"),
+            "https://asphaltmine.org/contact-us/",
             icon="envelope",
             weight=1003,
         ),

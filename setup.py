@@ -43,7 +43,7 @@ chdir(normpath(join(abspath(__file__), pardir)))
 
 setup(
     name="core_website_app",
-    version="2.10.0",
+    version="2.9.0",
     description="Basic web functionalities for the curator core project",
     long_description=long_desc,
     author="NIST IT Lab",
