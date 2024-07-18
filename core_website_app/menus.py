@@ -31,7 +31,7 @@ if DISPLAY_CONTACT_FOOTER:
         "footer",
         MenuItem(
             "Contact",
-            reverse("core_website_app_contact"),
+            "https://asphaltmine.org/contact-us/",
             icon="envelope",
             weight=1003,
         ),
@@ -40,7 +40,7 @@ if DISPLAY_HELP_FOOTER:
     Menu.add_item(
         "footer",
         MenuItem(
-            "Help",
+            "FAQ",
             reverse("core_website_app_help"),
             icon="question-circle",
             weight=1004,

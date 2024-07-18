@@ -3,16 +3,19 @@
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
 from django.core.exceptions import ValidationError
+from django.core.mail import EmailMultiAlternatives
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
-from django.template.loader import get_template
+from django.template.loader import get_template, render_to_string
 from django.urls import reverse
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from core_main_app.commons.exceptions import ApiError
 from core_main_app.utils.markdown_parser import parse
 from core_main_app.utils.rendering import render
-import core_website_app.components.account_request.api as account_request_api
 import core_website_app.components.contact_message.api as contact_message_api
 import core_website_app.components.help.api as help_api
 import core_website_app.components.privacy_policy.api as privacy_policy_api
@@ -23,7 +26,42 @@ import core_website_app.components.terms_of_use.api as terms_of_use_api
 
 from core_website_app.components.contact_message.models import ContactMessage
 from core_website_app.settings import DISPLAY_NIST_HEADERS
-from .forms import RequestAccountForm, ContactForm
+from .forms import RequestAccountForm, ContactForm, ResendVerificationForm
+
+
+def _send_verification_email(request, user):
+    """Email the user a link to verify their address and activate their account.
+
+    Args:
+        request:
+        user:
+
+    Returns:
+    """
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    token = default_token_generator.make_token(user)
+    verification_url = request.build_absolute_uri(
+        reverse(
+            "core_website_app_verify_email",
+            kwargs={"uidb64": uid, "token": token},
+        )
+    )
+    context = {"user": user, "verification_url": verification_url}
+    email = EmailMultiAlternatives(
+        "Verify your AsphaltMine account",
+        render_to_string(
+            "core_website_app/user/email/verify_email.txt", context
+        ),
+        None,
+        [user.email],
+    )
+    email.attach_alternative(
+        render_to_string(
+            "core_website_app/user/email/verify_email.html", context
+        ),
+        "text/html",
+    )
+    email.send()
 
 
 def request_new_account(request):
@@ -41,7 +79,7 @@ def request_new_account(request):
                 "is_raw": False,
             }
         ],
-        "css": ["core_website_app/user/css/list.css"],
+        "css": ["core_main_app/user/css/login.css"],
     }
 
     if request.method == "POST":
@@ -59,15 +97,18 @@ def request_new_account(request):
                     email=request_form_data.get("email"),
                     is_active=False,
                 )
+                user.save()
+                _send_verification_email(request, user)
 
-                account_request_api.insert(user)
-
-                messages.add_message(
+                return render(
                     request,
-                    messages.INFO,
-                    "User Account Request sent to the administrator.",
+                    "core_website_app/user/verify_email_sent.html",
+                    assets=assets,
+                    context={
+                        "email": user.email,
+                        "page_title": "Check Your Email",
+                    },
                 )
-                return redirect(reverse("core_main_app_homepage"))
             except ApiError as exception:
                 error_message = str(exception)
 
@@ -128,6 +169,85 @@ def request_new_account(request):
     )
 
 
+def verify_email(request, uidb64, token):
+    """Activate the account if the verification link is valid.
+
+    Parameters:
+        request:
+        uidb64:
+        token:
+
+    Returns: Http response
+    """
+    assets = {"css": ["core_main_app/user/css/login.css"]}
+    try:
+        user = User.objects.get(pk=urlsafe_base64_decode(uidb64).decode())
+    except (User.DoesNotExist, ValueError, TypeError, OverflowError):
+        user = None
+
+    if user is not None and default_token_generator.check_token(
+        user, token
+    ):
+        if not user.is_active:
+            user.is_active = True
+            user.save()
+        return render(
+            request,
+            "core_website_app/user/verify_email_result.html",
+            assets=assets,
+            context={"success": True, "page_title": "Email Verified"},
+        )
+
+    return render(
+        request,
+        "core_website_app/user/verify_email_result.html",
+        assets=assets,
+        context={"success": False, "page_title": "Verification Failed"},
+    )
+
+
+def resend_verification(request):
+    """Page that allows a user to request a new verification email.
+
+    Parameters:
+        request:
+
+    Returns: Http response
+    """
+    assets = {"css": ["core_main_app/user/css/login.css"]}
+    if request.method == "POST":
+        resend_form = ResendVerificationForm(request.POST)
+        if resend_form.is_valid():
+            email = resend_form.cleaned_data["email"]
+            user = User.objects.filter(
+                email__iexact=email, is_active=False
+            ).first()
+            if user is not None:
+                _send_verification_email(request, user)
+
+            return render(
+                request,
+                "core_website_app/user/verify_email_sent.html",
+                assets=assets,
+                context={
+                    "email": email,
+                    "page_title": "Check Your Email",
+                },
+            )
+    else:
+        resend_form = ResendVerificationForm()
+
+    return render(
+        request,
+        "core_website_app/user/resend_verification.html",
+        assets=assets,
+        context={
+            "resend_form": resend_form,
+            "page_title": "Resend Verification Email",
+        },
+    )
+
+
 def contact(request):
     """Contact form
 
@@ -181,6 +301,7 @@ def help_page(request):
         request,
         "core_website_app/user/help.html",
         context={"help": help_page_object, "page_title": "Help"},
+        assets={"css": ["core_website_app/user/css/help.css"]},
     )
 
 

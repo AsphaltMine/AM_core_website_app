@@ -1,76 +1,544 @@
 {% load static %}
 {% load stripjs %}
-<div class="row">
-    <div class="col-md-12">
-		<h2>Help</h2>
+<h1>FAQ</h1>
 
-		<div class="left word-wrap">
-			{% if data.help %}
-				{{ data.help.content | stripjs }}
-			{% else %}
-				<div class="left large">
-					<p>
-					  <a href="#What-is-the-Curation-System">What is the {{CUSTOM_NAME}}?</a><br/>
-					  <a href="#How-do-I-get-access">How do I get access to the {{CUSTOM_NAME}}?</a><br/>
-					  <a href="#What-are-activities">What are some of the activities I can do on the {{CUSTOM_NAME}}?</a><br/>
-					  <a href="#Can-I-use-RESTful-API">Can I use {{CUSTOM_NAME}} using a RESTful API?</a><br/>
-                      <a href="#How-can-I-get-help">How do I get help with questions?</a><br/>
-					  <a href="#How-do-I-contact-the-admin">How do I contact the {{CUSTOM_NAME}} administrator for questions?</a><br/>
-					</p>
-				</div>
-				<div class="clearer">&nbsp;</div>
-				<hr/>
-				<br/>
-
-				<h3 id="What-is-the-Curation-System">What is the {{CUSTOM_NAME}}?</h3>
-				<p class="large">
-					The {{CUSTOM_NAME}} allows for the curation of materials data into a repository using predefined templates. The system also allows
-					for browsing and exploring of the materials data using the predefined templates as well.
-				</p>
-
-				<div class="clearer">&nbsp;</div>
-
-				<h3 id="How-do-I-get-access">How do I get access to the {{CUSTOM_NAME}}?</h3>
-				<p class="large">
-					An individual may make a request to access {{CUSTOM_NAME}} using the online request form. Once the {{CUSTOM_NAME}} administrator accepts
-					the account request, the user is notified that the account is created with the appropriate credentials.
-				</p>
-
-				<div class="clearer">&nbsp;</div>
-
-				<h3 id="What-are-activities">What are some of the activities I can do on the {{CUSTOM_NAME}}?</h3>
-				<p class="large">
-					A user can enter and curate materials data, search and explore materials data, and perform a federation of queries
-					across several {{CUSTOM_NAME}} instances.
-				</p>
-
-				<div class="clearer">&nbsp;</div>
-
-				<h3 id="Can-I-use-RESTful-API">Can I use {{CUSTOM_NAME}} using a RESTful API?</h3>
-				<p class="large">
-					Yes, {{CUSTOM_NAME}} supports RESTful APIs. The {{CUSTOM_NAME}} REST-based APIs allow the integration with other Web services, data entry,
-					query, and retrieval. The RESTful API documentation can be accessed <a href="{% url 'swagger_view'%}">here</a>.
-				</p>
-
-				<div class="clearer">&nbsp;</div>
-
-                <h3 id="How-can-I-get-help">How do I get help with questions?</h3>
-                <p class="large">
-                    A Google Group has been established for discussion/questions about the CDCS systems developed by NIST. A Google account is required for posting.
-                     <br>
-                    Site: <a href="https://groups.google.com/d/forum/mdcs-mgi">https://groups.google.com/d/forum/mdcs-mgi</a>
-                     <br>
-                    Email: <a href="mailto:mdcs-mgi@googlegroups.com">mdcs-mgi@googlegroups.com</a>
-                </p>
-
-                <div class="clearer">&nbsp;</div>
-
-				<h3 id="How-do-I-contact-the-admin">How do I contact the {{CUSTOM_NAME}} administrator for questions?</h3>
-				<p class="large">
-					You can contact the {{CUSTOM_NAME}} administrator using this
-                    <a href="{% url 'core_website_app_contact' %}">form</a>.
-				</p>
-			{% endif %}
-		</div>
-	</div>
+{% if data.help %}
+<div class="left word-wrap">
+    {{ data.help.content | stripjs }}
 </div>
+{% else %}
+<nav class="am-faq-categories" aria-label="FAQ categories">
+    <div class="am-faq-categories-row">
+        <a href="#cat-start" data-cat="cat-start"><i class="fas fa-compass"></i>Getting Started</a>
+        <a href="#cat-accounts" data-cat="cat-accounts"><i class="fas fa-user-lock"></i>Accounts &amp; Access</a>
+        <a href="#cat-curation" data-cat="cat-curation"><i class="fas fa-edit"></i>Data Curation</a>
+        <a href="#cat-bulk" data-cat="cat-bulk"><i class="fas fa-file-upload"></i>Bulk Upload</a>
+        <a href="#cat-database" data-cat="cat-database"><i class="fas fa-search"></i>Database &amp; Search</a>
+    </div>
+    <div class="am-faq-categories-row">
+        <a href="#cat-workspaces" data-cat="cat-workspaces"><i class="fas fa-folder-open"></i>My Data &amp; Workspaces</a>
+        <a href="#cat-profile" data-cat="cat-profile"><i class="fas fa-user"></i>My Profile</a>
+        <a href="#cat-visualization" data-cat="cat-visualization"><i class="fas fa-chart-line"></i>Visualization</a>
+        <a href="#cat-prediction" data-cat="cat-prediction"><i class="fas fa-brain"></i>Prediction</a>
+        <a href="#cat-assistant" data-cat="cat-assistant"><i class="fas fa-robot"></i>Ask {{CUSTOM_NAME}}</a>
+        <a href="#cat-publications" data-cat="cat-publications"><i class="fas fa-envelope"></i>Publications &amp; Contact</a>
+    </div>
+</nav>
+
+<div class="am-faq-list">
+
+<h2 id="cat-start" class="am-faq-category-title"><i class="fas fa-compass"></i>Getting Started</h2>
+
+<details class="am-faq-item">
+    <summary><span>What is the {{CUSTOM_NAME}}?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>{{CUSTOM_NAME}} is a platform for collecting asphalt test results in an organized online database and for using this data to train machine
+        learning models to predict asphalt performance. More information can be found <a href="https://asphaltmine.org/about/">here</a>.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>What tasks can I perform on the {{CUSTOM_NAME}}?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>A user can input and curate asphalt test results, search and explore existing data, display or conceal their data, and share it either
+        publicly or with specific groups.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>What asphalt tests are available in the {{CUSTOM_NAME}}?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>The available tests in the {{CUSTOM_NAME}} are:</p>
+        <ul>
+            <li>Rutting Test</li>
+            <li>Marshall Test</li>
+            <li>Indirect Tensile Strength Test (ITS)</li>
+            <li>Thermal Stress Restrained Specimen Test (TSRST)</li>
+            <li>Uniaxial Tension Stress Test (UTST)</li>
+            <li>Stiffness Test</li>
+        </ul>
+        <p>You can view the data structure for these tests <a href="https://asphaltmine.org/mix-test-database-structure/">here</a>.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>Do I need an account to use the {{CUSTOM_NAME}}?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p><strong>Visualization</strong>, <strong>Prediction</strong> and this FAQ open without an account. Searching the database, entering data,
+        uploading data and using workspaces need you to be logged in.</p>
+    </div>
+</details>
+
+<h2 id="cat-accounts" class="am-faq-category-title"><i class="fas fa-user-lock"></i>Accounts &amp; Access</h2>
+
+<details class="am-faq-item">
+    <summary><span>How do I get access to the {{CUSTOM_NAME}}?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Click <strong>Log In / Sign Up</strong> in the top menu and click <strong>Create Account</strong>.</li>
+            <li>Fill in the required fields and captcha on the <strong>Create Account</strong> page, then click <strong>Create Account</strong>.</li>
+            <li>Open the verification email sent to your address and click the link inside to activate your account.</li>
+        </ol>
+        <p>Your account is now active, with read-only access. To also enter or upload data, request write access (see below).</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>How do I create an account?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Click <strong>Log In / Sign Up</strong> in the top menu.</li>
+            <li>On the login page, click <strong>Create Account</strong>.</li>
+            <li>Fill in the required fields marked with a red asterisk, such as your username, first name, last name, email address, password,
+            password confirmation, and the captcha.</li>
+            <li>Click <strong>Create Account</strong>.</li>
+            <li>Open the email sent to your address and click the verification link to activate your account.</li>
+            <li>Click <strong>Log In</strong> on the Email Verified page to sign in.</li>
+        </ol>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>I did not receive the verification email. What can I do?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Check your email spam or junk folder to see if the message arrived there.</li>
+            <li>If it is not there, click <strong>Didn't get it? Resend the email</strong> on the Check Your Email page, or go to the login page and click
+            <strong>Resend the verification email</strong>.</li>
+            <li>On the Resend Verification Email page, type the email address you signed up with, complete the captcha, and click
+            <strong>Resend Email</strong>.</li>
+        </ol>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>I forgot my password. How do I reset it?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Click <strong>Log In / Sign Up</strong> at the top right of the page.</li>
+            <li>On the login page, click <strong>Forgot password</strong>.</li>
+            <li>Type your email address and click <strong>Send reset link</strong>.</li>
+            <li>Open the email you receive and click the link inside it.</li>
+            <li>Enter your new password and click <strong>Change password</strong>.</li>
+            <li>Click <strong>Sign in</strong> to use your new password.</li>
+        </ol>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>What can I do with a read-only account?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>With a read-only account you can log in, search and view records in the database, and use the <strong>Visualization</strong> and
+        <strong>Prediction</strong> pages.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>How do I request write access?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Open <strong>My Account</strong> in the top menu and click <strong>My Profile</strong>.</li>
+            <li>Find the <strong>Write Access</strong> row and click <strong>Request Write Access</strong>.</li>
+            <li>Fill in the form with your organization name, source country or countries, standards followed, and a short description.</li>
+            <li>Click <strong>Send Request</strong>.</li>
+        </ol>
+        <p>You will receive an email once the {{CUSTOM_NAME}} team reviews your request.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>What happens after I send a write access request?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ul>
+            <li>If your request is accepted, you will receive an email confirming that write access has been granted.</li>
+            <li>If it is denied, your account remains read-only and you can send a new request.</li>
+        </ul>
+    </div>
+</details>
+
+<h2 id="cat-curation" class="am-faq-category-title"><i class="fas fa-edit"></i>Data Curation</h2>
+
+<details class="am-faq-item">
+    <summary><span>How do I enter a new test record?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Log in, then click <strong>Data Curation</strong> in the top menu. Write access is also required.</li>
+            <li>Click the box under <strong>Performance Tests</strong> on the right to select the test or tests you want.</li>
+            <li>Click <strong>Apply</strong>.</li>
+            <li>Open each section by clicking its <strong>Show</strong> tab and fill in the required fields, marked with a red asterisk.</li>
+            <li>Click <strong>Save</strong> at the bottom of the page.</li>
+            <li>In the confirmation box, choose whether to keep the record private or assign it to a workspace, and click <strong>Confirm</strong>.</li>
+        </ol>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>Can I enter results for more than one test at once?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>Yes.</p>
+        <ol>
+            <li>Go to the <strong>Data Curation</strong> page in the top menu.</li>
+            <li>Click the box under <strong>Performance Tests</strong> on the right side of the screen.</li>
+            <li>In the popup that appears, tick all the tests you want to include and click <strong>Apply</strong>.</li>
+            <li>Fill in the shared mixture and data source details, along with the sample properties and results sections for each of the selected tests.</li>
+            <li>Click <strong>Save</strong> at the bottom of the page to save all the records at once.</li>
+        </ol>
+        <p>This needs write access.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>Why can't I save my record?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>Usually one of two reasons: a required field is empty or formatted incorrectly, or your account does not have write access.</p>
+        <ul>
+            <li>If a required field is missing, the browser highlights it in red when you click Save.</li>
+            <li>If your account has read-only access, the action fails with an "Insufficient Permission" message. You can request write access from
+            My Profile.</li>
+        </ul>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>How do I edit a record I already saved?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Open the <strong>Database</strong> page or <strong>My Data</strong> page. Logging in is required.</li>
+            <li>On the Database page, find your record and click the pencil icon next to it.</li>
+            <li>Or, on the My Data page, open the actions menu for your record and click <strong>Edit</strong>.</li>
+            <li>Make your changes in the Data Curation form that opens.</li>
+            <li>Click <strong>Update</strong> at the bottom of the page, then click <strong>Confirm</strong> in the confirmation box.</li>
+        </ol>
+        <p>Only the owner can edit a record, and the test type cannot be changed after saving.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>What does "semi-mandatory" mean for a field?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>The form allows you to save a record without filling in that field, but a useful record should include at least one entry for each
+        semi-mandatory group:</p>
+        <ul>
+            <li>Grain size distribution: Virgin Aggregates or Recovered Aggregates.</li>
+            <li>Binder content: Binder Content in Mixture Recipe or Percentage Content of Recovered Binder.</li>
+            <li>Penetration: Virgin Binder Penetration or Recovered Binder Penetration.</li>
+            <li>Voids: Bulk density with Maximum density, or Air voids.</li>
+        </ul>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>How do I download a single record as a file?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Open the record in the <strong>Data Curation</strong> page (find it through the Database or My Data pages).</li>
+            <li>Click the <strong>Download</strong> button at the bottom of the form.</li>
+            <li>Click <strong>Confirm</strong> in the popup box to save the record to your device in XML format.</li>
+        </ol>
+    </div>
+</details>
+
+<h2 id="cat-bulk" class="am-faq-category-title"><i class="fas fa-file-upload"></i>Bulk Upload</h2>
+
+<details class="am-faq-item">
+    <summary><span>How do I upload many records at once?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>Use the <strong>Bulk Upload</strong> page. This needs login and curate (write) access.</p>
+        <ol>
+            <li>Click <strong>Bulk Upload</strong> in the top navigation menu.</li>
+            <li>Download the predefined Excel template using the link provided on the page.</li>
+            <li>Fill in your data in the Excel file.</li>
+            <li>Click <strong>Upload AsphaltMine Excel File</strong> and select your completed file.</li>
+            <li>Choose the correct sheet layout, <strong>Database (Columns)</strong> or <strong>Database (Rows)</strong>, that matches your file.</li>
+            <li>Click <strong>Extract</strong>, then <strong>Confirm</strong>.</li>
+            <li>Once extraction is successful, click <strong>Validate</strong>, then <strong>Confirm</strong>.</li>
+            <li>If all records are valid, choose a workspace if desired.</li>
+            <li>Click <strong>Save</strong>, then <strong>Confirm</strong>, to add them to the database.</li>
+        </ol>
+        <p>If any records are invalid, the system lists them; correct your Excel file and repeat from step 4.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>Where do I get the Excel template?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Click <strong>Bulk Upload</strong> in the top navigation menu.</li>
+            <li>Look in the <strong>About this page</strong> box and click the link named <strong>here</strong> to download the template file.</li>
+        </ol>
+        <p>Alternatively, download any existing record from the Database page or My Data using the AsphaltMine Format (.xlsx) download option, which is
+        also fully compatible with Bulk Upload.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>Is there a file size limit for Bulk Upload?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>Yes, the server rejects uploaded files larger than about 10 MB. If your Excel file is bigger, split it into several smaller files and upload
+        them one after another.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>What does "INVALID: Missing field" mean?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>A required value is empty in that row or column of your Excel sheet. Fill in the missing value in your sheet, upload the file again, and run
+        the extraction and validation steps once more.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>Can one row in my Excel sheet create more than one record?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>Yes, if it contains results for more than one test. {{CUSTOM_NAME}} creates one separate record for each test that has results in that row.</p>
+    </div>
+</details>
+
+<h2 id="cat-database" class="am-faq-category-title"><i class="fas fa-search"></i>Database &amp; Search</h2>
+
+<details class="am-faq-item">
+    <summary><span>How do I search for records?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Click <strong>Database</strong> in the top menu.</li>
+            <li>Click the search box at the top of the page.</li>
+            <li>Type a word and press Enter or the space bar to turn it into a keyword tag.</li>
+            <li>Wait about three seconds for the search to run automatically, or click the magnifying glass button to run it right away.</li>
+        </ol>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>What download formats are available?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>The download formats available on the Database page are <strong>Simple Export (.xlsx)</strong>, <strong>Simple Export (.csv)</strong>, and
+        <strong>AsphaltMine Format (.xlsx)</strong>. The AsphaltMine Format is compatible with Bulk Upload but much slower to prepare, and can take tens
+        of minutes for downloads with thousands of records.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>How do I download every record I am allowed to see?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Click <strong>Database</strong> in the top navigation menu.</li>
+            <li>Leave the search box completely blank so every record you are allowed to see is listed.</li>
+            <li>Click <strong>Select All</strong> to select every matching record across all pages.</li>
+            <li>Click <strong>Download</strong>.</li>
+            <li>In the download options box, choose your preferred format and click <strong>Download</strong> again.</li>
+        </ol>
+    </div>
+</details>
+
+<h2 id="cat-workspaces" class="am-faq-category-title"><i class="fas fa-folder-open"></i>My Data &amp; Workspaces</h2>
+
+<details class="am-faq-item">
+    <summary><span>Who can see the data I upload?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>Your uploaded data is private to you by default and is visible only to you. Other people can see it only if you move the records into a
+        shared workspace or a public workspace.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>How do I create a workspace?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Click <strong>Shared Workspaces</strong> in the top menu. A login is required.</li>
+            <li>Click <strong>Create workspace</strong>.</li>
+            <li>In the <strong>Create new workspace</strong> box, type a name in <strong>Workspace name</strong>.</li>
+            <li>Click <strong>Create Workspace</strong>.</li>
+        </ol>
+        <p>This needs write access. Read-only accounts cannot create a workspace.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>Can I give someone write access without making my workspace public?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>Yes.</p>
+        <ol>
+            <li>Click <strong>Shared Workspaces</strong> in the top menu.</li>
+            <li>Find your workspace in the table and open its <strong>Actions</strong> menu.</li>
+            <li>Click <strong>Manage Access</strong>.</li>
+            <li>Click <strong>Add users</strong> and search for the person in the box to add them.</li>
+            <li>Tick <strong>Write access</strong> next to their name so they can add or edit records without the workspace being public.</li>
+            <li>Click <strong>Add</strong>.</li>
+        </ol>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>How do I move several records into a workspace at once?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Click <strong>My Data</strong> in the top menu. This requires logging in.</li>
+            <li>Click <strong>Modify Records</strong>. Checkboxes appear next to your records, and the button changes to <strong>Done</strong>.</li>
+            <li>Tick the checkboxes for the records you want to move, or tick the box in the table header to select every record matching your current
+            filters across all pages.</li>
+            <li>Open the <strong>Choose action</strong> menu and pick <strong>Move selected records to a workspace</strong>.</li>
+            <li>Choose your target workspace and confirm.</li>
+            <li>Click <strong>Done</strong> to leave this mode.</li>
+        </ol>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>Can I change who owns a record?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>Yes, if you own the record.</p>
+        <ol>
+            <li>Click <strong>My Data</strong> in the top menu to open your records list. Logging in is required.</li>
+            <li>Find the record and click the sliders icon in the <strong>Actions</strong> column for that record.</li>
+            <li>Select <strong>Change Owner</strong>.</li>
+            <li>In the box that appears, choose the new owner from the list of active users and click <strong>Change</strong>.</li>
+        </ol>
+    </div>
+</details>
+
+<h2 id="cat-profile" class="am-faq-category-title"><i class="fas fa-user"></i>My Profile</h2>
+
+<details class="am-faq-item">
+    <summary><span>How do I change my password?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Click <strong>My Account</strong> in the top menu and select <strong>My Profile</strong>.</li>
+            <li>Click <strong>Change Password</strong>.</li>
+            <li>Type your old password, then enter your new password twice.</li>
+            <li>Click <strong>Save changes</strong>.</li>
+        </ol>
+        <p>Not shown if the site uses single sign-on.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>How do I change my time zone?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <ol>
+            <li>Click <strong>My Account</strong> at the far right of the top menu and select <strong>My Profile</strong>.</li>
+            <li>Look for the <strong>Preferences</strong> section and choose your preferred time zone from the list.</li>
+            <li>Click <strong>Set</strong>.</li>
+        </ol>
+    </div>
+</details>
+
+<h2 id="cat-visualization" class="am-faq-category-title"><i class="fas fa-chart-line"></i>Visualization</h2>
+
+<details class="am-faq-item">
+    <summary><span>What is Live Insights?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>Live Insights shows live summaries of the curated records in the database. You can find it on the <strong>Visualization</strong> page under
+        the <strong>Live Insights</strong> tab. It updates automatically every hour, or manually with Refresh once a minute if you are logged in.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>Can I see statistics for just my own workspace?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>Yes, by switching the scope on the Live Insights tab. You must be logged in to use this feature.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>What is the correlation matrix?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>In the drill-down view for each test, it shows how strongly pairs of parameters relate to one another.</p>
+        <ul>
+            <li>The lower triangle uses the Pearson coefficient, for linear relations.</li>
+            <li>The upper triangle uses the Spearman coefficient, for rank-based relations.</li>
+        </ul>
+        <p>Each cell shows the coefficient and the number of paired records.</p>
+    </div>
+</details>
+
+<h2 id="cat-prediction" class="am-faq-category-title"><i class="fas fa-brain"></i>Prediction</h2>
+
+<details class="am-faq-item">
+    <summary><span>Which predictions are available?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>{{CUSTOM_NAME}} currently provides prediction models for the <strong>Marshall Test</strong> (predicting Marshall Stability and Flow) and for
+        <strong>Volumetric Properties</strong> (predicting Bulk Density and Air Voids). Models for other tests are planned for the future.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>How accurate is the Marshall prediction model?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>Results are shown with ±σR and ±R ranges per EN 12697-34, representing the experimental reproducibility of the test. It was built using
+        Physics-Informed Neural Networks and trained on 2,656 Swiss records, mostly asphalt concrete.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>What data was the Marshall model trained on?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>2,656 records from Switzerland, mainly from the cantons of Zurich and Aargau, consisting mostly of asphalt concrete. About 70% of the mixtures
+        used polymer modified binders (mainly grades 45/80-80 and 45/80-65, all SBS modified), and about 30% used unmodified binders (mainly 50/70 and
+        70/100). All Marshall tests were run at 60°C, following EN 12697-34.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>Can I download my prediction results?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>Yes, click <strong>Download PDF Report</strong> below the results on the prediction page.</p>
+    </div>
+</details>
+
+<h2 id="cat-assistant" class="am-faq-category-title"><i class="fas fa-robot"></i>Ask {{CUSTOM_NAME}}</h2>
+
+<details class="am-faq-item">
+    <summary><span>What is Ask {{CUSTOM_NAME}}?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>Ask {{CUSTOM_NAME}} is the AI assistant built into the website to answer your questions about using {{CUSTOM_NAME}} and about the asphalt
+        tests, data fields, and prediction models it contains. You can find the chat button at the bottom right of the pages.</p>
+        <ul>
+            <li>It can make mistakes, so check important details with the team.</li>
+            <li>Visitors who are not signed in can ask fewer questions per hour than signed in users.</li>
+            <li>Your questions are sent to Google's Gemini AI service, so do not type passwords or confidential information.</li>
+        </ul>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>Does the assistant remember my earlier questions?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>Yes, but only within the same browser tab, for roughly the last eight exchanges. If you click the refresh icon in the chat header or close the
+        tab, that history is cleared, and nothing is kept between visits.</p>
+    </div>
+</details>
+
+<h2 id="cat-publications" class="am-faq-category-title"><i class="fas fa-envelope"></i>Publications &amp; Contact</h2>
+
+<details class="am-faq-item">
+    <summary><span>Where can I find {{CUSTOM_NAME}}'s published papers?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>You can find information about published papers on the <strong>Publications</strong> page. For now, this page says "Coming soon," but the
+        project's first prediction paper is already published: <a href="https://doi.org/10.1016/j.cscm.2026.e05829">DOI 10.1016/j.cscm.2026.e05829</a>.</p>
+    </div>
+</details>
+<details class="am-faq-item">
+    <summary><span>How do I contact the {{CUSTOM_NAME}} team for questions?</span><i class="fas fa-chevron-down"></i></summary>
+    <div class="am-faq-answer">
+        <p>You can contact the {{CUSTOM_NAME}} team by email at <a href="mailto:contact@asphaltmine.org">contact@asphaltmine.org</a>.</p>
+    </div>
+</details>
+
+</div>
+<script>
+(function () {
+    var nav = document.querySelector('.am-faq-categories');
+    var links = document.querySelectorAll('.am-faq-categories a');
+    var titles = document.querySelectorAll('.am-faq-category-title');
+    if (!links.length || !titles.length) return;
+    var byId = {};
+    links.forEach(function (a) { byId[a.getAttribute('data-cat')] = a; });
+    function setActive(link) {
+        links.forEach(function (a) { a.classList.remove('am-faq-cat-active'); });
+        if (link) link.classList.add('am-faq-cat-active');
+    }
+    var manualNavUntil = 0;
+    function updateActiveOnScroll() {
+        if (Date.now() < manualNavUntil) return;
+        var threshold = window.innerHeight / 2;
+        var current = titles[0];
+        for (var i = 0; i < titles.length; i++) {
+            if (titles[i].getBoundingClientRect().top <= threshold) {
+                current = titles[i];
+            } else {
+                break;
+            }
+        }
+        setActive(byId[current.id]);
+    }
+    window.addEventListener('scroll', function () {
+        nav.classList.toggle('am-faq-scrolled', window.scrollY > 40);
+        updateActiveOnScroll();
+    }, { passive: true });
+    links.forEach(function (a) {
+        a.addEventListener('click', function (e) {
+            var id = a.getAttribute('data-cat');
+            var target = document.getElementById(id);
+            if (!target) return;
+            e.preventDefault();
+            setActive(a);
+            manualNavUntil = Date.now() + 900;
+            var offset = nav.getBoundingClientRect().bottom + 16;
+            var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+            window.scrollTo({ top: top, behavior: 'smooth' });
+            history.pushState(null, '', '#' + id);
+        });
+    });
+    updateActiveOnScroll();
+})();
+</script>
+{% endif %}

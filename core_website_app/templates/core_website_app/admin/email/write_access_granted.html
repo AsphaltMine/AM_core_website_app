@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Write access granted</title>
+</head>
+<body>
+Dear {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
+<br><br>
+Your AsphaltMine account now has write access.
+<br><br>
+We recommend organizing your data into workspaces. This makes it easy to share with specific users or make it public.
+<br><br>
+<a href="{{ URI }}">{{ URI }}</a>
+<br><br>
+The AsphaltMine team
+</body>
+</html>

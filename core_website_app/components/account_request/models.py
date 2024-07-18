@@ -18,6 +18,11 @@ class AccountRequest(models.Model):
     last_name = models.CharField(blank=False, max_length=200)
     email = models.CharField(blank=False, max_length=200)
     date = models.DateTimeField(default=datetime.datetime.now, blank=False)
+    organization = models.CharField(blank=True, default="", max_length=200)
+    country = models.CharField(blank=True, default="", max_length=100)
+    standard = models.CharField(blank=True, default="", max_length=30)
+    standard_other = models.CharField(blank=True, default="", max_length=200)
+    reason = models.TextField(blank=True, default="")
 
     @staticmethod
     def get_by_id(request_id):
